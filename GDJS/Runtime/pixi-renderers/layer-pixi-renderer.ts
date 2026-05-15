@@ -829,7 +829,8 @@ namespace gdjs {
     }
 
     updatePosition(): void {
-      const runtimeGame = this._layer.getRuntimeScene().getGame();
+      const runtimeScene = this._layer.getRuntimeScene();
+      const runtimeGame = runtimeScene.getGame();
 
       // Update the 3D camera position and rotation.
       if (this._threeCamera) {
@@ -921,8 +922,10 @@ namespace gdjs {
         const centerY =
           this._layer.getCameraX() * effectivePixiZoom * angleSinValue +
           this._layer.getCameraY() * effectivePixiZoom * angleCosValue;
-        this._pixiContainer.position.x = this._layer.getWidth() / 2 - centerX;
-        this._pixiContainer.position.y = this._layer.getHeight() / 2 - centerY;
+        this._pixiContainer.position.x =
+          runtimeScene.getViewportOriginX() - centerX;
+        this._pixiContainer.position.y =
+          runtimeScene.getViewportOriginY() - centerY;
       }
 
       // Pixel rounding for the Pixi rendering (be it for 2D only
